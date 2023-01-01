@@ -32,18 +32,24 @@ public class RobberBehavior : MonoBehaviour
       agent = this.GetComponent<NavMeshAgent>();
       
       tree = new BehaviorTree();
+      
+      Selector openDoor = new Selector("Open Door");
+      
       Sequence steal = new Sequence("Steal something");
+      
       Leaf goToBackDoor = new Leaf("Go To BackDoor", GoToBackDoor);
       Leaf goToFrontDoor = new Leaf("Go To FrontDoor", GoToFrontDoor);
       Leaf hasGotMoney = new Leaf("Has got money", HasMoney);
       Leaf goToDiamond = new Leaf("Go to Diamond", GotToDiamond);
       Leaf goToVan = new Leaf("Go to Van", GotToVan);
-      Selector openDoor = new Selector("Open Door");
-
+      Inverter invertMoney = new Inverter("Invert Money");
+      
+      invertMoney.AddChild(hasGotMoney);
+      
       openDoor.AddChild(goToFrontDoor);
       openDoor.AddChild(goToBackDoor);
       
-      steal.AddChild(hasGotMoney);
+      steal.AddChild(invertMoney);
       steal.AddChild(openDoor);
       steal.AddChild(goToDiamond);
       //steal.AddChild(goToBackDoor);
@@ -63,7 +69,7 @@ public class RobberBehavior : MonoBehaviour
 
    public Node.Status HasMoney()
    {
-      if (money >= 500)
+      if (money < 500)
       {
          return Node.Status.FAILURE;
       }
