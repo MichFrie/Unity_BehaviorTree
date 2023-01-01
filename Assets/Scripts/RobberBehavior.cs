@@ -4,35 +4,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class RobberBehavior : MonoBehaviour
+public class RobberBehavior : BT_Agent
 {
-   BehaviorTree tree;
    public GameObject Diamond;
    public GameObject Van;
    public GameObject BackDoor;
    public GameObject FrontDoor;
-
-   NavMeshAgent agent;
-
-   public enum ActionState
-   {
-      IDLE,
-      WORKING
-   }
-
-   ActionState state = ActionState.IDLE;
-
-   Node.Status treeStatus = Node.Status.RUNNING;
    
    [Range(0,1000)]
    public int money = 800;
    
-   void Start()
+   new void Start()
    {
-      agent = this.GetComponent<NavMeshAgent>();
-      
-      tree = new BehaviorTree();
-      
+      base.Start();
       Selector openDoor = new Selector("Open Door");
       
       Sequence steal = new Sequence("Steal something");
@@ -58,15 +42,6 @@ public class RobberBehavior : MonoBehaviour
       
       //tree.printTree();
    }
-
-   void Update()
-   {
-      if (treeStatus != Node.Status.SUCCESS)
-      {
-         treeStatus = tree.Process();
-      }
-   }
-
    public Node.Status HasMoney()
    {
       if (money < 500)

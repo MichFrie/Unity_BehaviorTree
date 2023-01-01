@@ -6,8 +6,8 @@ using UnityEngine.AI;
 
 public class BT_Agent : MonoBehaviour
 {
-   BehaviorTree tree;
-   NavMeshAgent agent;
+   public BehaviorTree tree;
+   public NavMeshAgent agent;
 
    public enum ActionState
    {
@@ -27,14 +27,13 @@ public class BT_Agent : MonoBehaviour
       
    }
 
-   void Update()
+   public void Update()
    {
       if (treeStatus != Node.Status.SUCCESS)
       {
          treeStatus = tree.Process();
       }
    }
-
    
    public Node.Status GoToLocation(Vector3 destination)
    {
