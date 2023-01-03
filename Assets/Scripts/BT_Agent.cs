@@ -3,12 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 public class BT_Agent : MonoBehaviour
 {
    public BehaviorTree tree;
    public NavMeshAgent agent;
 
+   WaitForSeconds WaitForSeconds;
+   
    public enum ActionState
    {
       IDLE,
@@ -24,17 +27,19 @@ public class BT_Agent : MonoBehaviour
       agent = this.GetComponent<NavMeshAgent>();
       
       tree = new BehaviorTree();
-      
+      WaitForSeconds = new WaitForSeconds(Random.Range(0.1f, 1f));
+
+      StartCoroutine("Behave");
    }
 
-   public void Update()
+   IEnumerator Behave()
    {
-      if (treeStatus != Node.Status.SUCCESS)
+      while (true)
       {
          treeStatus = tree.Process();
+         yield return WaitForSeconds;
       }
    }
-   
    public Node.Status GoToLocation(Vector3 destination)
    {
       float distanceToTarget = Vector3.Distance(destination, this.transform.position);
