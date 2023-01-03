@@ -18,7 +18,12 @@ public class Leaf : Node
       Name = n;
       ProcessMethod = pm;
    }
-   
+   public Leaf(string n, Tick pm, int order)
+   {
+      Name = n;
+      ProcessMethod = pm;
+      sortOrder = order;
+   }
    public override Status Process()
    {
       if (ProcessMethod != null)

@@ -16,6 +16,7 @@ public class Node
 	public List<Node> children = new List<Node>();
 
 	public int currentChild = 0;
+	public int sortOrder;
 
 	public string Name;
 
@@ -27,6 +28,11 @@ public class Node
 	public Node(string n)
 	{
 		Name = n;
+	}
+	public Node(string n, int order)
+	{
+		Name = n;
+		sortOrder = order;
 	}
 
 	public virtual Status Process()
